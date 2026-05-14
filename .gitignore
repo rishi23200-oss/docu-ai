@@ -1,0 +1,11 @@
+backend/.env
+*.env
+__pycache__/
+*.pyc
+node_modules/
+dist/
+*.log
+.DS_Store
+Thumbs.db
+uploads/
+*.index
