@@ -7,20 +7,10 @@ import faiss
 import numpy as np
 import PyPDF2
 from openai import AsyncOpenAI
-from sentence_transformers import SentenceTransformer
-
 from app.core.config import settings
 from app.db.mongodb import get_collection
 
 logger = logging.getLogger(__name__)
-
-_embedding_model = None
-
-def get_embedding_model():
-    global _embedding_model
-    if _embedding_model is None:
-        _embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-    return _embedding_model
 
 CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 200
