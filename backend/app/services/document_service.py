@@ -53,11 +53,17 @@ def extract_pdf_text(file_path: str) -> str:
 
 
 async def get_embeddings(texts: List[str]) -> List[List[float]]:
-    model = get_embedding_model()
-    embeddings = model.encode(texts, convert_to_numpy=True)
-    if len(embeddings.shape) == 1:
-        embeddings = embeddings.reshape(1, -1)
-    return embeddings.tolist()
+    """Simple hash-based embeddings - lightweight for free tier."""
+    import hashlib
+    embeddings = []
+    for text in texts:
+        # Create 384-dim embedding using hash
+        vec = []
+        for i in range(384):
+            h = hashlib.md5(f"{text}{i}".encode()).hexdigest()
+            vec.append(int(h[:8], 16) / 0xffffffff - 0.5)
+        embeddings.append(vec)
+    return embeddings
 
 
 async def build_faiss_index(document_id: str, chunks: List[str]) -> str:
